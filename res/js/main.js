@@ -77,6 +77,7 @@ const backgroundCanvas = () => {
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
 };
 
+
 const score = () =>{
     ctx.fillStyle = "#000";
     ctx.font = "bold 90px sans-serif"
