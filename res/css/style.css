@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     user-select: none;
+    overflow: none;
    
 }
 
@@ -78,3 +79,4 @@ footer {
 #canvas {
     display: none;
 }
+
