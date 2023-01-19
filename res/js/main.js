@@ -6,7 +6,9 @@ let coolDown = true;
 let over = false;
 let gameSpeed = 3;
 let secondPosition = 1920;
+let frame = 1;
 let position = 0;
+
 
 const bot = [];
 const mid = [];
@@ -34,28 +36,7 @@ start.onclick = () => {
 
 
 // PIPES BOT AND TOP length
-const generate = () => {
 
-
-    for (let i = 0; i < 3; i++) {
-        bot[i] = Math.floor(Math.random() * canvas.height / 2) + 150;
-
-        /*   for(let j =0; j<4;j++){
-              mid[j] = canvas.height - bot[i] -250;
-           }
-           */
-    }
-
-
-    // console.log(mid);
-    for (let i = 0; i < 3; i++) {
-        mid[i] = canvas.height - bot[i] - 250;
-    }
-    console.log(mid);
-    console.log(bot);
-
-}
-generate();
 
 
 // I want to do x - position (tommorow);
@@ -79,7 +60,7 @@ class myPlayer {
 
 class myPipe {
     constructor() {
-        this.position = { x: canvas.width, y: 0 };
+        this.position = { x: canvas.width - 120, y: 0 };
         this.width = 100;
         //  this.bot = (Math.random()* canvas.height/2)+150;
         //  this.top = canvas.height - this.bot -250;
@@ -89,30 +70,20 @@ class myPipe {
 
     }
 
-    draw() {
-
-        ctx.fillStyle = "green";
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.top[0]);
-        ctx.fill();
-        ctx.fillRect(this.position.x, canvas.height - this.bot[0], this.width, this.bot[0]);
-        ctx.fill();
-       /*
-         ctx.fillRect(this.position.x+500,this.position.y, this.width ,  this.top[1]);
+    /* draw() {
+  
+          ctx.fillStyle = "green";
+          ctx.fillRect(this.position.x, this.position.y, this.width, this.top[0]);
           ctx.fill();
-          ctx.fillRect(this.position.x+500,canvas.height - this.bot[1], this.width , this.bot[1]);
+          ctx.fillRect(this.position.x, canvas.height - this.bot[0], this.width, this.bot[0]);
           ctx.fill();
-          ctx.fillRect(this.position.x+1000,this.position.y, this.width ,  this.top[2]);
-          ctx.fill();
-          ctx.fillRect(this.position.x+1000,canvas.height - this.bot[2], this.width , this.bot[2]);
-          ctx.fill();
-          */
-         
-
-    }
-
+  
+      }
+   */
     move() {
-        pipe.position.x = pipe.pipePos + canvas.width;
-        pipe.pipePos -= gameSpeed;
+        this.position.x = this.pipePos + canvas.width;
+        this.pipePos -= gameSpeed;
+        //  this.draw();
 
     }
 
@@ -162,7 +133,47 @@ const backgroundCanvas = () => {
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
 };
 
+const generatePositions = () => {
 
+    //dolní díra   
+    for (let i = 0; i < 10; i++) {
+        bot[i] = Math.floor(Math.random() * canvas.height / 2) + 200;
+
+        /*   for(let j =0; j<4;j++){
+              mid[j] = canvas.height - bot[i] -250;
+           }
+           */
+    }
+
+
+    // console.log(mid);
+    for (let i = 0; i < 10; i++) {
+        mid[i] = canvas.height - bot[i] - 250;
+    }
+    console.log("horní pipe " + mid);
+    console.log("dolní pipe " + bot);
+
+}
+
+
+
+const generate = () => {
+
+    for (let i = 0; i < 10; i++) {
+
+        position = pipe.position.x + 700;
+        pipe.position.x = position;
+        ctx.fillStyle = "green";
+        ctx.fillRect(position, pipe.position.y, pipe.width, pipe.top[i]);
+        ctx.fill();
+        ctx.fillRect(position, canvas.height - pipe.bot[i], pipe.width, pipe.bot[i]);
+        ctx.fill();
+
+        console.log(position);
+
+    }
+
+}
 
 const score = () => {
     ctx.fillStyle = "#000";
@@ -185,8 +196,7 @@ const score = () => {
 
 
 
-
-
+generatePositions();
 function gameLoop() {
 
     backgroundCanvas();
@@ -198,11 +208,9 @@ function gameLoop() {
 
     }
     else {
-        pipe.draw();
+
         pipe.move();
-        
-
-
+        generate();
 
     }
 
@@ -224,10 +232,8 @@ function gameLoop() {
     }
 
 
-
-
-
     requestAnimationFrame(gameLoop);
+
 }
 
 
