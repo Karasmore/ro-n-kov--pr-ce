@@ -4,7 +4,7 @@ let wrap = document.getElementById("wrapper");
 let gameStart = false;
 let coolDown = true;
 let over = false;
-let gameSpeed = 3;
+let gameSpeed = 10;
 let secondPosition = 1920;
 let frame = 1;
 let position = 0;
@@ -14,7 +14,7 @@ const bot = [];
 const mid = [];
 
 
-const jump = 5.5;
+const jump = 3.5;
 
 
 
@@ -136,13 +136,9 @@ const backgroundCanvas = () => {
 const generatePositions = () => {
 
     //dolní díra   
+    
     for (let i = 0; i < 10; i++) {
         bot[i] = Math.floor(Math.random() * canvas.height / 2) + 200;
-
-        /*   for(let j =0; j<4;j++){
-              mid[j] = canvas.height - bot[i] -250;
-           }
-           */
     }
 
 
@@ -159,19 +155,31 @@ const generatePositions = () => {
 
 const generate = () => {
 
-    for (let i = 0; i < 10; i++) {
+   // for (let i = 0; i < 10; i++) {
 
         position = pipe.position.x + 700;
         pipe.position.x = position;
         ctx.fillStyle = "green";
-        ctx.fillRect(position, pipe.position.y, pipe.width, pipe.top[i]);
+        ctx.fillRect(position, pipe.position.y, pipe.width, pipe.top[0]);
         ctx.fill();
-        ctx.fillRect(position, canvas.height - pipe.bot[i], pipe.width, pipe.bot[i]);
+        ctx.fillRect(position, canvas.height - pipe.bot[0], pipe.width, pipe.bot[0]);
         ctx.fill();
+        //console.log(position);
 
-        console.log(position);
 
-    }
+        //Vytvořit 2-3 instancí třídy pipe
+        //Přidat je do listu
+        //Kontrolovat pipePos u každé instance v listu, když bude (zatím) <-3000, nastav pipePos = 0
+
+        if(pipe.pipePos < -3000){
+            pipe.pipePos = 0
+            console.log(player.position.x)
+            console.log("Pipe: " + pipe.pipePos)
+            console.log("GENERATE")
+        }
+
+
+  //  }
 
 }
 
@@ -227,7 +235,7 @@ function gameLoop() {
     }
 
     if (gameStart && coolDown) {
-        playerPosition += jump / 2;
+        playerPosition += jump ;
 
     }
 
