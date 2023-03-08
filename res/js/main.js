@@ -24,7 +24,7 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = 1920;
 canvas.height = 969;
-let playerPosition = (canvas.height / 2) - 50;
+let playerPosition = (canvas.height / 2) -  50;
 
 start.onclick = () => {
    
