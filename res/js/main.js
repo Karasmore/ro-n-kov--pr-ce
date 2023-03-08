@@ -4,10 +4,11 @@ let wrap = document.getElementById("wrapper");
 let gameStart = false;
 let coolDown = true;
 let over = false;
-let gameSpeed = 3;
+let gameSpeed =3;
 let secondPosition = 1920;
-let frame = 1;
+
 let position = 0;
+let value = 0;
 
 
 const bot = [];
@@ -26,7 +27,7 @@ canvas.height = 969;
 let playerPosition = (canvas.height / 2) - 50;
 
 start.onclick = () => {
-    run = true;
+   
     wrapper.style.display = "none";
 
     canvas.style.display = "flex";
@@ -34,12 +35,6 @@ start.onclick = () => {
 }
 
 
-
-// PIPES BOT AND TOP length
-
-
-
-// I want to do x - position (tommorow);
 class myPlayer {
     constructor() {
         this.position = { x: 300 };
@@ -56,14 +51,10 @@ class myPlayer {
 }
 
 
-
-
 class myPipe {
     constructor() {
         this.position = { x: canvas.width - 120, y: 0 };
         this.width = 100;
-        //  this.bot = (Math.random()* canvas.height/2)+150;
-        //  this.top = canvas.height - this.bot -250;
         this.bot = bot;
         this.top = mid;
         this.pipePos = 0;
@@ -89,7 +80,6 @@ class myPipe {
 
 }
 
-
 let birdImage = new Image;
 
 birdImage.src = "./res/img/bird2.png";
@@ -106,8 +96,7 @@ const begin = () => {
 
 document.addEventListener('keydown', (x) => {
 
-    if (x.code === "Space" && coolDown && playerPosition > 85 && !over &&
-        run == true) {
+    if (x.code === "Space" && coolDown && playerPosition > 85 && !over ) {
         if (!gameStart) {
 
             gameStart = !gameStart;
@@ -136,30 +125,28 @@ const backgroundCanvas = () => {
 const generatePositions = () => {
 
     //dolní díra   
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
         bot[i] = Math.floor(Math.random() * canvas.height / 2) + 200;
 
-        /*   for(let j =0; j<4;j++){
-              mid[j] = canvas.height - bot[i] -250;
-           }
-           */
     }
 
 
-    // console.log(mid);
-    for (let i = 0; i < 10; i++) {
+   
+    for (let i = 0; i < 100; i++) {
         mid[i] = canvas.height - bot[i] - 250;
     }
+
+
+    
     console.log("horní pipe " + mid);
     console.log("dolní pipe " + bot);
 
 }
 
 
-
 const generate = () => {
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
 
         position = pipe.position.x + 700;
         pipe.position.x = position;
@@ -169,11 +156,32 @@ const generate = () => {
         ctx.fillRect(position, canvas.height - pipe.bot[i], pipe.width, pipe.bot[i]);
         ctx.fill();
 
-        console.log(position);
+        
+        ctx.fillStyle = "#000";
+        ctx.font = "bold 50px sans-serif"
+        ctx.fillText(value, 20, 50);
+    
+      
 
+        
     }
 
 }
+
+/**
+ * const countingScore = () =>{
+      
+    if(player.position.x>pipe.position.x){
+        
+        value++;
+    }
+
+     console.log(value);
+     console.log("Hráč pozice "+  player.position.x);
+     console.log("Pipe position " + pipe.position.x)
+
+}
+*/
 
 const score = () => {
     ctx.fillStyle = "#000";
@@ -189,18 +197,17 @@ const score = () => {
     ctx.fillText("Score ", canvas.width / 2 - 200, 350);
     ctx.fillText("Best", canvas.width / 2 + 130, 350);
 
-    ctx.filter = 'grayscale(1)';
+ //   ctx.filter = 'grayscale(1)';
 
 
 }
-
-
+//countingScore();
 
 generatePositions();
 function gameLoop() {
 
     backgroundCanvas();
-
+   
 
     if (!gameStart) {
         begin();
@@ -211,23 +218,27 @@ function gameLoop() {
 
         pipe.move();
         generate();
+       
 
     }
 
 
 
     player.draw(playerPosition);
-    if (playerPosition >= canvas.height - 80) {
+    if (playerPosition >= canvas.height - 80 ) {
 
         score();
         // playerPosition = 889 ;
+        
+        gameSpeed =0;
+
         over = true;
 
 
     }
 
     if (gameStart && coolDown) {
-        playerPosition += jump / 2;
+        playerPosition += jump / 3;
 
     }
 
@@ -238,12 +249,3 @@ function gameLoop() {
 
 
 gameLoop();
-
-
-
-
-
-
-
-
-
