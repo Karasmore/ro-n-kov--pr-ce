@@ -3,7 +3,7 @@ import { Player } from "./player.js";
 
 export const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-const PIPE_COUNT = 3
+let PIPE_COUNT = 5;
 canvas.width = 1920;
 canvas.height = 969;
 
@@ -13,10 +13,10 @@ let wrap = document.getElementById("wrapper");
 let gameStart = false;
 let coolDown = true;
 let over = false;
-let gameSpeed = 5;
+let gameSpeed = 6;
 let lastPipePos = 1920;
 
-let position = 0;
+
 let value = 0;
 
 let birdImage = new Image;
@@ -33,8 +33,14 @@ start.onclick = () => {
 }
 
 let pipeList = []
+let positionPipes = [];
+for (let i = 0; i < PIPE_COUNT; i++) {
+   positionPipes[i] = 2400+700*i;
+
+}
 
 const player = new Player(birdImage);
+
 
 
 const begin = () => {
@@ -71,36 +77,30 @@ const generatePipePositions = () => {  //generate pipes positions
 
 
 const generate = () => {   //draw pipes
-    position = pipeList[0].position.x + 700;
-    for (let i = 0; i < pipeList.length; i++) {
-        console.log("PIPEX " + pipeList[i].position.x)
-        if (pipeList[i].position.x <= -2000) {
-            pipeList[i].position.x = 1000
-            lastPipePos = pipeList[i].position.x
-            console.log("LAST " + lastPipePos)
-            //console.log("PIPEX " + pipeList[i].position.x)
-            console.log("PIPE OUT")
-            
-        }
+    
+   
+ 
+       pipeList.forEach((pipe, i) => {
+        
 
-        position = position + 700;
-        pipeList[i].position.x = position;
+        pipe.position.x = positionPipes[i];
         ctx.fillStyle = "green";
-        ctx.fillRect(position, pipeList[i].position.y, pipeList[i].width, pipeList[i].topCoord);
+        ctx.fillRect(pipe.position.x, pipe.position.y, pipe.width, pipe.topCoord);
         ctx.fill();
-        ctx.fillRect(position, canvas.height - pipeList[i].bottomCoord, pipeList[i].width, pipeList[i].bottomCoord);
+        ctx.fillRect(pipe.position.x, canvas.height - pipe.bottomCoord, pipe.width, pipe.bottomCoord);
         ctx.fill();
         ctx.fillStyle = "#000";
         ctx.font = "bold 50px sans-serif"
         ctx.fillText(value, 20, 50);
-
-       /*
-        Zkontrolovat, když se první pipe dostane mimo obrazovku.
-        Posounout její X pozici za poslední pipe (bude asi potřeba ukládat poslední pozici, protože vždy nebude na posledním indexu v pipeListu poslední pipe)
-        Bude možná potřeba opravit generate funkci
+        
+        positionPipes[i] -= gameSpeed - 3;
        
-       */  
-    }
+        if (pipe.position.x <= -100) {
+           
+         positionPipes[i] = 3500;
+
+         } 
+        });
 
 }
 
