@@ -13,7 +13,7 @@ let wrap = document.getElementById("wrapper");
 let gameStart = false;
 let coolDown = true;
 let over = false;
-let gameSpeed = 7;
+let gameSpeed = 5;
 
 
 
@@ -120,10 +120,8 @@ const generate = () => {   //draw pipes
 
          }
          //score
-    /*
-            ctx.fillStyle = "#000";
-            ctx.font = "bold 50px sans-serif"
-            ctx.fillText(value, 20, 50);
+
+          
            
         if(pipe.position.x ==300){
             value ++;
@@ -132,7 +130,7 @@ const generate = () => {   //draw pipes
     
         }
  
-        */
+     
         });
 
 }
@@ -143,8 +141,10 @@ const generate = () => {   //draw pipes
   const countingScore = () =>{
       
 
-        
-           
+
+    ctx.fillStyle = "#000";
+    ctx.font = "bold 50px sans-serif"
+    ctx.fillText(value, 20, 50);
       
     
     
@@ -158,24 +158,22 @@ const collisionPipes = (pipe) =>{
        if((player.position.x  >= pipe.position.x&& playerPosition >= pipe.position.y&& playerPosition <= pipe.position.y + pipe.topCoord) || 
              (player.position.x  >= pipe.position.x &&playerPosition >= canvas.height - pipe.bottomCoord &&playerPosition <= canvas.height - pipe.bottomCoord + pipe.bottomCoord  )
                
-              
-             )
-             
+           
+            
+      // (player.position.x >= pipe.position.y + pipe.topCoord && player.position.x <= pipe.position.y + pipe.topCoord + pipe.width && playerPosition <= pipe.topCoord )
 
-              //player.position.x >= pipe.position.y + pipe.topCoord && player.position.x <= pipe.position.y + pipe.topCoord + pipe.width && playerPosition <= pipe.topCoord )
+    
+      
+      )
               {
 
-          
-         
 
             over = true;
             gameSpeed = 3; 
           
          }
 
-    
-     
-     
+
 
 }
 
@@ -218,7 +216,7 @@ function gameLoop() {
     player.draw(playerPosition);
     
     countingScore();
-   
+    
     if (playerPosition >= canvas.height - 80) {
 
         score();
