@@ -28,7 +28,7 @@ pipeBottomImage.src = "./res/img/pipe_bottom.png"
 let pipeTopImage = new Image;
 pipeTopImage.src = "./res/img/pipe_top.png";
 
-const jump = 8;
+let jump = 8;
 
 let playerPosition = (canvas.height / 2) - 50;
 
@@ -46,7 +46,7 @@ for (let i = 0; i < PIPE_COUNT; i++) {
 }
 
 const player = new Player(birdImage);
-const pipeObject = new Pipe();
+
 
 
 
@@ -167,7 +167,6 @@ const collisionPipes = (pipe) =>{
       )
               {
 
-
             over = true;
             gameSpeed = 3; 
           
@@ -188,12 +187,22 @@ const score = () => {
 
     ctx.fillStyle = "#fff";
     ctx.font = "bold 27px sans-serif"
-    ctx.fillText("Score ", canvas.width / 2 - 200, 350);
-    ctx.fillText("Best", canvas.width / 2 + 130, 350);
+    ctx.fillText("Score ", canvas.width / 2 -15, 350);
+    
 
-    //   ctx.filter = 'grayscale(1)';
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 80px sans-serif"
+    ctx.fillText(value, canvas.width / 2 +5, 450);
 
 
+    ctx.fillStyle = "#000";
+    ctx.font = "bold 50px sans-serif"
+    ctx.fillText("Press Enter to play again", canvas.width / 2 - 280, 900);
+
+    ctx.filter = 'grayscale(1)';
+          
+
+    
 }
 
 
@@ -222,7 +231,9 @@ function gameLoop() {
         score();
         // playerPosition = 889 ;    
         gameSpeed = 3;
+        jump = 100;
         over = true;
+        refreshGame();
     }
 
     if (gameStart && coolDown) {
@@ -258,5 +269,21 @@ document.addEventListener('keydown', (x) => {
 });
 
 
+
+const refreshGame = () => {
+
+
+document.addEventListener('keydown', (x) => { 
+
+    if (x.code === "Enter" ) {
+       
+     
+      location.reload();
+      
+    }
+
+})
+
+}
 
 gameLoop();
