@@ -1,12 +1,13 @@
 
 class Pipe {
-    constructor(bottomCoord, topCoord, gameSpeed) {
-        this.position = { x: canvas.width - 120, y: 0 };
-        this.width = 100;
+    constructor(bottomCoord, topCoord, gameSpeed,) {
+        this.position = { x: canvas.width - 120, y: -20 };
+        this.width = 300;
         this.bottomCoord = bottomCoord;
         this.topCoord = topCoord;
         this.pipePos = 0;
         this.gameSpeed = gameSpeed
+        
 
     }
 
@@ -25,7 +26,7 @@ class Pipe {
         this.pipePos -= this.gameSpeed;
 
         console.log("X COORD " + this.position.x)
-        console.log("PIPE POS " + this.pipePos)
+
         //  this.draw();
 
     }

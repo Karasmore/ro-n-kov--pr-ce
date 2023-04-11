@@ -39,7 +39,7 @@ a {
     font-size: 40px;
     display: flex;
     justify-content: center;
-    padding-top: 160px;
+    padding-top: 130px;
     
   
     width: 0;
@@ -52,7 +52,7 @@ a {
     font-size: 40px;
     display: flex;
     justify-content: center;
-    padding-top: 160px;
+    padding-top: 130px;
 
 }
 
@@ -61,7 +61,7 @@ a {
     font-size: 40px;
     display: flex;
     justify-content: center;
-    padding-top: 160px;
+    padding-top: 120px;
 
 }
 
@@ -70,8 +70,7 @@ footer {
     justify-content: right;
     font-size: 17px;
 
-    color: #fff;
-    padding-top: 130px;
+   color: #fff;
     padding-right: 20px;
 
 }

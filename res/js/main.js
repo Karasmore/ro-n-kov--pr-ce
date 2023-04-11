@@ -4,8 +4,8 @@ import { Player } from "./player.js";
 export const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 let PIPE_COUNT = 5;
-canvas.width = 1920;
-canvas.height = 969;
+canvas.width = innerWidth;
+canvas.height = innerHeight-1;
 
 let start = document.getElementById("start");
 let wrap = document.getElementById("wrapper");
@@ -13,8 +13,8 @@ let wrap = document.getElementById("wrapper");
 let gameStart = false;
 let coolDown = true;
 let over = false;
-let gameSpeed = 6;
-let lastPipePos = 1920;
+let gameSpeed = 7;
+
 
 
 let value = 0;
@@ -22,8 +22,13 @@ let value = 0;
 let birdImage = new Image;
 birdImage.src = "./res/img/bird2.png";
 
+let pipeBottomImage = new Image;
+pipeBottomImage.src = "./res/img/pipe_bottom.png"
 
-const jump = 5.5;
+let pipeTopImage = new Image;
+pipeTopImage.src = "./res/img/pipe_top.png";
+
+const jump = 8;
 
 let playerPosition = (canvas.height / 2) - 50;
 
@@ -34,12 +39,14 @@ start.onclick = () => {
 
 let pipeList = []
 let positionPipes = [];
+
 for (let i = 0; i < PIPE_COUNT; i++) {
    positionPipes[i] = 2400+700*i;
 
 }
 
 const player = new Player(birdImage);
+const pipeObject = new Pipe();
 
 
 
@@ -61,13 +68,19 @@ const backgroundCanvas = () => {
 const generatePipePositions = () => {  //generate pipes positions
     let bottomCoord = 0
     let topCoord = 0
+ 
     //dolní díra   
     for (let i = 0; i < PIPE_COUNT; i++) {
-        bottomCoord = Math.floor(Math.random() * canvas.height / 2) + 200;
-        topCoord = canvas.height - bottomCoord - 250;
+
+      
+        bottomCoord = Math.floor(Math.random() * canvas.height / 2) + 100;
+        topCoord = canvas.height - bottomCoord - 200;
+        console.log(topCoord);
         //console.log("horní pipe " + topCoord);
         //console.log("dolní pipe " + bottomCoord);
-        pipeList.push(new Pipe(bottomCoord, topCoord, gameSpeed))
+        pipeList.push(new Pipe(bottomCoord, topCoord, gameSpeed, pipeBottomImage))
+
+        
 
     }
 
@@ -85,37 +98,86 @@ const generate = () => {   //draw pipes
 
         pipe.position.x = positionPipes[i];
         ctx.fillStyle = "green";
-        ctx.fillRect(pipe.position.x, pipe.position.y, pipe.width, pipe.topCoord);
+        ctx.drawImage(pipeTopImage,pipe.position.x, pipe.position.y, pipe.width, pipe.topCoord);
         ctx.fill();
-        ctx.fillRect(pipe.position.x, canvas.height - pipe.bottomCoord, pipe.width, pipe.bottomCoord);
+        ctx.drawImage(pipeBottomImage,pipe.position.x, canvas.height - pipe.bottomCoord+30, pipe.width, pipe.bottomCoord);   
         ctx.fill();
-        ctx.fillStyle = "#000";
-        ctx.font = "bold 50px sans-serif"
-        ctx.fillText(value, 20, 50);
+ 
         
         positionPipes[i] -= gameSpeed - 3;
        
-        if (pipe.position.x <= -100) {
+        if (pipe.position.x <= -200) {
            
          positionPipes[i] = 3500;
-
+        
          } 
+        
+
+
+         if(pipe.position.x >=300 &&pipe.position.x <= 500){
+
+          collisionPipes(pipe);
+
+         }
+         //score
+    /*
+            ctx.fillStyle = "#000";
+            ctx.font = "bold 50px sans-serif"
+            ctx.fillText(value, 20, 50);
+           
+        if(pipe.position.x ==300){
+            value ++;
+                console.log("w  ODUJSWQKIDSWJHQAFDKSQHJD KL")
+
+    
+        }
+ 
+        */
         });
 
 }
 
-/**
- * const countingScore = () =>{
+
+
+
+  const countingScore = () =>{
       
-    if(player.position.x>pipe.position.x){
+
         
-        value++;
-    }
-     console.log(value);
-     console.log("Hráč pozice "+  player.position.x);
-     console.log("Pipe position " + pipe.position.x)
+           
+      
+    
+    
 }
-*/
+
+const collisionPipes = (pipe) =>{
+
+    //playerPosition == HEIGHT  
+         console.log(player.position.x );
+         console.log(playerPosition);
+       if((player.position.x  >= pipe.position.x&& playerPosition >= pipe.position.y&& playerPosition <= pipe.position.y + pipe.topCoord) || 
+             (player.position.x  >= pipe.position.x &&playerPosition >= canvas.height - pipe.bottomCoord &&playerPosition <= canvas.height - pipe.bottomCoord + pipe.bottomCoord  )
+               
+              
+             )
+             
+
+              //player.position.x >= pipe.position.y + pipe.topCoord && player.position.x <= pipe.position.y + pipe.topCoord + pipe.width && playerPosition <= pipe.topCoord )
+              {
+
+          
+         
+
+            over = true;
+            gameSpeed = 3; 
+          
+         }
+
+    
+     
+     
+
+}
 
 const score = () => {
     ctx.fillStyle = "#000";
@@ -135,11 +197,11 @@ const score = () => {
 
 
 }
-//countingScore();
+
 
 generatePipePositions();
-function gameLoop() {
 
+function gameLoop() {
     backgroundCanvas();
 
     if (!gameStart) {
@@ -152,18 +214,21 @@ function gameLoop() {
         generate();
 
     }
-
+   
     player.draw(playerPosition);
+    
+    countingScore();
+   
     if (playerPosition >= canvas.height - 80) {
 
         score();
         // playerPosition = 889 ;    
-        gameSpeed = 0;
+        gameSpeed = 3;
         over = true;
     }
 
     if (gameStart && coolDown) {
-        playerPosition += jump / 3;
+        playerPosition += jump/3   ;
 
     }
 

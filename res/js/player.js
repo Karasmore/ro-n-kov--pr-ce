@@ -2,7 +2,7 @@ import { canvas } from "./main.js";
 
 class Player {
     constructor(birdImage) {
-        this.position = { x: 300 };
+        this.position = { x: 305 };
         this.width = 150;
         this.height = 100;
         this.birdImage = birdImage
