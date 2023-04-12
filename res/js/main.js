@@ -56,9 +56,6 @@ for (let i = 0; i < PIPE_COUNT; i++) {
 
 
 
-
-
-
 const begin = () => {
     ctx.font = "bold 50px sans-serif"
     ctx.fillText("Press spacebar to start the game", canvas.width / 2 - 350
@@ -70,7 +67,7 @@ const begin = () => {
 
 const backgroundCanvas = () => {
     let bgImage = new Image();
-    bgImage.src = "./res/img/bg.png";
+    bgImage.src = "./res/img/bg3.jpg";
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height)
 };
 
