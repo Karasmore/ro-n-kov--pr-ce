@@ -25,7 +25,6 @@ class Pipe {
         this.position.x = this.pipePos + canvas.width;
         this.pipePos -= this.gameSpeed;
 
-        console.log("X COORD " + this.position.x)
 
         //  this.draw();
 

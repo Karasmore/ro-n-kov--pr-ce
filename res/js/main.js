@@ -30,22 +30,31 @@ pipeTopImage.src = "./res/img/pipe_top.png";
 
 let jump = 8;
 
+
+
 let playerPosition = (canvas.height / 2) - 50;
+
+
+let pipeList = []
+let positionPipes = [];
+
+
+
+const player = new Player(birdImage);
 
 start.onclick = () => {
     wrap.style.display = "none";
     canvas.style.display = "flex"
 }
 
-let pipeList = []
-let positionPipes = [];
+
 
 for (let i = 0; i < PIPE_COUNT; i++) {
    positionPipes[i] = 2400+700*i;
 
 }
 
-const player = new Player(birdImage);
+
 
 
 
@@ -97,7 +106,7 @@ const generate = () => {   //draw pipes
         
 
         pipe.position.x = positionPipes[i];
-        ctx.fillStyle = "green";
+     
         ctx.drawImage(pipeTopImage,pipe.position.x, pipe.position.y, pipe.width, pipe.topCoord);
         ctx.fill();
         ctx.drawImage(pipeBottomImage,pipe.position.x, canvas.height - pipe.bottomCoord+30, pipe.width, pipe.bottomCoord);   
@@ -112,8 +121,6 @@ const generate = () => {   //draw pipes
         
          } 
         
-
-
          if(pipe.position.x >=300 &&pipe.position.x <= 500){
 
           collisionPipes(pipe);
@@ -121,15 +128,10 @@ const generate = () => {   //draw pipes
          }
          //score
 
-          
-           
-        if(pipe.position.x ==300){
+        if(pipe.position.x ==150){
             value ++;
                 console.log("w  ODUJSWQKIDSWJHQAFDKSQHJD KL")
-
-    
         }
- 
      
         });
 
@@ -192,16 +194,12 @@ const score = () => {
 
     ctx.fillStyle = "#fff";
     ctx.font = "bold 80px sans-serif"
-    ctx.fillText(value, canvas.width / 2 +5, 450);
+    ctx.fillText(value, canvas.width / 2 -20, 450);
 
 
-    ctx.fillStyle = "#000";
-    ctx.font = "bold 50px sans-serif"
-    ctx.fillText("Press Enter to play again", canvas.width / 2 - 280, 900);
+   
 
-    ctx.filter = 'grayscale(1)';
-          
-
+   // ctx.filter = 'grayscale(1)';
     
 }
 
@@ -231,9 +229,9 @@ function gameLoop() {
         score();
         // playerPosition = 889 ;    
         gameSpeed = 3;
-        jump = 100;
+       
         over = true;
-        refreshGame();
+       // refreshGame();
     }
 
     if (gameStart && coolDown) {
@@ -270,7 +268,7 @@ document.addEventListener('keydown', (x) => {
 
 
 
-const refreshGame = () => {
+/*const refreshGame = () => {
 
 
 document.addEventListener('keydown', (x) => { 
@@ -285,5 +283,5 @@ document.addEventListener('keydown', (x) => {
 })
 
 }
-
+*/
 gameLoop();
